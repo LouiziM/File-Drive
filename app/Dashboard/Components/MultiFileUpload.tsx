@@ -16,12 +16,14 @@ const ALLOWED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', '
 interface FileWithPreview extends File {
   preview?: string;
 }
-
-export default function MultiFileUpload() {
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+interface MultiFileUploadProps {
+  files: FileWithPreview[];
+  setFiles: React.Dispatch<React.SetStateAction<FileWithPreview[]>>;
+}
+export default function MultiFileUpload({files,setFiles}:MultiFileUploadProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-
+  console.log(files)
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(event.target.files || []);
     
@@ -37,7 +39,7 @@ export default function MultiFileUpload() {
       if (file.size > MAX_FILE_SIZE) {
         toast({
           title: "حجم الملف كبير جدًا",
-          description: `${file.name} يتجاوز الحد الأقصى البالغ 800 كيلوبايت.`,
+          description: `.يتجاوز الحد الأقصى البالغ 800 كيلوبايت ${file.name} `,
           variant: "destructive",
         });
         return false;

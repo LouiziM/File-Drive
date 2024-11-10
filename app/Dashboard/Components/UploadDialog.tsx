@@ -26,18 +26,16 @@ import {
 import MultiFileUpload from "./MultiFileUpload"
 import { DialogClose } from "@radix-ui/react-dialog"
 
+interface FileWithPreview extends File {
+    preview?: string;
+  }
+
 export default function UploadDialog() {
-    const [file, setFile] = useState<File | null>(null)
+    const [files, setFiles] = useState<FileWithPreview[]>([]);
     const [numbers, setNumbers] = useState({ year: "", code: "", fileNumber: "" })
     const [tribunalType, setTribunalType] = useState("")
     const [caseType, setCaseType] = useState("")
     const { toast } = useToast()
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFile(e.target.files[0])
-        }
-    }
 
     const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -47,14 +45,14 @@ export default function UploadDialog() {
     }
 
     const handleSubmit = () => {
-        if (file && numbers.year && numbers.code && numbers.fileNumber && tribunalType && caseType) {
-            console.log("File:", file)
+        if (files && numbers.year && numbers.code && numbers.fileNumber && tribunalType && caseType) {
+            console.log("File:", files)
             console.log("Numbers:", numbers)
             console.log("Tribunal Type ID:", tribunalType)
             console.log("Case Type ID:", caseType)
             toast({
                 title: "نجاح",
-                description: "تم رفع الملف بنجاح!",
+                description: "!تم رفع الملف بنجاح",
                 duration: 3000,
             })
         } else {
@@ -85,8 +83,8 @@ export default function UploadDialog() {
                     </DialogHeader>
                     <div className="grid gap-4 py-4 ">
                         <div className="grid w-full max-w-sm items-center gap-1.5">
-                            <Label className="flex justify-end" htmlFor="file">الملف</Label>
-                            <MultiFileUpload />
+                            <Label className="flex justify-end" htmlFor="files">الملف</Label>
+                            <MultiFileUpload files={files} setFiles={setFiles}/>
                         </div>
                         <div className="flex space-x-2 rtl:space-x-reverse">
                             <div className="grid w-full max-w-sm items-center gap-1.5">
