@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Upload, X, FileIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -9,7 +9,6 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 // Initialize pdf.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.mjs";
 const MAX_FILE_SIZE = 800 * 1024; // 800KB in bytes
 const ALLOWED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];
 
@@ -21,10 +20,16 @@ interface MultiFileUploadProps {
   setFiles: React.Dispatch<React.SetStateAction<FileWithPreview[]>>;
 }
 export default function MultiFileUpload({files,setFiles}:MultiFileUploadProps) {
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
-  console.log(files)
+  //loading the pdf worker
+  useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.mjs";
+  }, []);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    
     const selectedFiles = Array.from(event.target.files || []);
     
     const validFiles = selectedFiles.filter(file => {

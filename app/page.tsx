@@ -14,35 +14,11 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { handleSignIn } from "@/utils/cognito-actions";
-import { useFormState, useFormStatus } from "react-dom";
 
 export default function Component() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [error, setError] = useState("");
   const [errorMessage, dispatch] = useActionState(handleSignIn, undefined);
-
-  // const handleLogin = async (e: React.FormEvent) => {
-  //   e.preventDefault();  
-  //   if (!email || !password) {
-  //     setError("الرجاء إدخال البريد الإلكتروني وكلمة المرور.");
-  //     return;
-  //   }
-  //   try {
-  //     setError(""); // Clear any previous errors
-  
-  //     // Create FormData and add the email and password
-  //     const formData = new FormData();
-  //     formData.append("email", email);
-  //     formData.append("password", password);
-  
-  //     await handleSignIn("",formData);
-  //   } catch (err) {
-  //     console.log(err)
-  //     setError("فشل تسجيل الدخول. الرجاء التحقق من البريد الإلكتروني وكلمة المرور.");
-  //   }
-  // };
-  
 
   return (
     <div 

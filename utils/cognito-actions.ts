@@ -84,7 +84,7 @@ export async function handleSignIn(
       await resendSignUpCode({
         username: String(formData.get("email")),
       });
-      redirectLink = "/auth/confirm-signup";
+      redirectLink = "/Dashboard";
     }
   } catch (error) {
     return getErrorMessage(error);
